@@ -13,6 +13,15 @@
       crossorigin="anonymous"
     />
     <title>Times Around the World</title>
+    <script>
+      let host = "www.timesaroundtheworld.com" || "timesaroundtheworld.com";
+      if (
+        host === window.location.host &&
+        window.location.protocol != "https:"
+      ) {
+        window.location.protocol = "https";
+      }
+    </script>
   </head>
   <body>
     <div class="container-fluid">{% block content %}{% endblock %}</div>
