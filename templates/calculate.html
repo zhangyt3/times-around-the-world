@@ -3,7 +3,38 @@
   <div class="col">
     <div class="jumbotron">
       <h1 class="display-4">Hi, {{name}}</h1>
-      <p>You've recorded {{total_distance}} kilometers on Strava!</p>
+      <p>You've recorded {{distance_total}} kilometers on Strava.</p>
+      <hr class="my-4" />
+      <p>
+        You've ran {{distance_ran}} kilometers, biked {{distance_biked}}
+        kilometers, and swam {{distance_swam}} kilometers.
+      </p>
+      <p>The circumference of the world is 40,075 kilometers.</p>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <p>
+      That means you've circled the world {{'%0.4f' % times_around_world|float}}
+      times.
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="progress">
+      {% set percent_around_world = times_around_world * 100|float %}
+      <div
+        class="progress-bar"
+        role="progressbar"
+        style="width: {{percent_around_world}}%;"
+        aria-valuenow="{{percent_around_world}}"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        {{ '%0.2f' % percent_around_world|float}}%
+      </div>
     </div>
   </div>
 </div>

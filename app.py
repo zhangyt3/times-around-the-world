@@ -10,6 +10,9 @@ app.config["CLIENT_ID"] = os.environ.get("CLIENT_ID")
 app.config["CLIENT_SECRET"] = os.environ.get("CLIENT_SECRET")
 app.config["REFRESH_TOKEN"] = os.environ.get("REFRESH_TOKEN")
 
+strava_endpoint = "https://www.strava.com/api/v3"
+world_circumference = 40075
+
 
 @app.route("/")
 def index():
@@ -20,8 +23,32 @@ def index():
 def calculate():
     authcode = request.args.get("code")
     athlete, access_token = get_access_token(authcode)
+
+    data = get_athlete_data(athlete["id"], access_token)
+    distance_ran = int(data["all_run_totals"]["distance"]) // 1000
+    distance_biked = int(data["all_ride_totals"]["distance"]) // 1000
+    distance_swam = int(data["all_swim_totals"]["distance"]) // 1000
+    distance_total = sum([distance_ran, distance_biked, distance_swam])
+    times_around_world = distance_total / world_circumference
+
     name = f"{athlete['firstname']} {athlete['lastname']}"
-    return render_template("calculate.html", name=name)
+    return render_template(
+        "calculate.html",
+        name=name,
+        distance_total=distance_total,
+        distance_ran=distance_ran,
+        distance_biked=distance_biked,
+        distance_swam=distance_swam,
+        times_around_world=times_around_world
+    )
+
+
+def get_athlete_data(athlete_id, access_token):
+    r = requests.get(get_strava_athlete_stats_endpoint(athlete_id), headers={
+        "Authorization": f"Bearer {access_token}"
+    })
+    parsed = json.loads(r.content)
+    return parsed
 
 
 def get_access_token(authcode):
@@ -36,6 +63,10 @@ def get_access_token(authcode):
     access_token = parsed["access_token"]
     athlete = parsed["athlete"]
     return athlete, access_token
+
+
+def get_strava_athlete_stats_endpoint(athlete_id):
+    return f"{strava_endpoint}/athletes/{athlete_id}/stats"
 
 
 def get_strava_oauth_link(redirect_uri):
