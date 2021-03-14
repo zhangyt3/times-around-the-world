@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import requests
 import os
 import json
@@ -15,12 +15,16 @@ world_circumference = 40075
 
 
 @app.route("/")
+@app.route("/index")
 def index():
     return render_template("index.html", oauth_link=get_strava_oauth_link(app.config["REDIRECT_URI"]))
 
 
 @app.route("/calculate")
 def calculate():
+    if not "code" in request.args:
+        return redirect(url_for("index"))
+
     authcode = request.args.get("code")
     athlete, access_token = get_access_token(authcode)
 
