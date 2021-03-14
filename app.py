@@ -1,10 +1,24 @@
 from flask import Flask, render_template, request, redirect, url_for
+from flask_talisman import Talisman
 import requests
 import os
 import json
 
 
 app = Flask(__name__)
+if "DYNO" in os.environ:
+    csp = {
+        'default-src': [
+            '\'self\'',
+            '\'unsafe-inline\'',
+            'maxcdn.bootstrapcdn.com',
+            'code.jquery.com',
+            'cdn.jsdelivr.net',
+            'cdnjs.cloudflare.com'
+        ]
+    }
+    Talisman(app, content_security_policy=csp)
+
 app.config["REDIRECT_URI"] = os.environ.get("REDIRECT_URI")
 app.config["CLIENT_ID"] = os.environ.get("CLIENT_ID")
 app.config["CLIENT_SECRET"] = os.environ.get("CLIENT_SECRET")
