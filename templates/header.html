@@ -1,17 +1,16 @@
 <div class="jumbotron">
   <h1 class="display-4">Times around the world</h1>
   <p class="lead">
-    Have you ever wondered how many times you've ran around the world? Now you
-    can find out!
+    Have you ever wondered how many times you've ran around the world? Now you can find out!
   </p>
   <hr class="my-4" />
-  <p>
-    Authenticate with your Strava account to calculate how many times you've
-    circled the world.
-  </p>
+  <p>Authenticate with your Strava account to calculate how many times you've circled the world.</p>
   <p class="lead">
-    <a class="btn btn-primary btn-lrg" href="{{oauth_link}}" role="button"
-      >Authenticate with Strava</a
-    >
+    <a class="btn btn-link" href="{{oauth_link}}" role="button" style="padding: 0">
+      <img
+        src="{{url_for('static', filename='btn_strava_connectwith_orange.svg')}}"
+        style="margin: 0"
+      />
+    </a>
   </p>
 </div>

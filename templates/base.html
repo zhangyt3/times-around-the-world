@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -15,16 +12,13 @@
     <title>Times Around the World</title>
     <script>
       let host = "www.timesaroundtheworld.com" || "timesaroundtheworld.com";
-      if (
-        host === window.location.host &&
-        window.location.protocol != "https:"
-      ) {
+      if (host === window.location.host && window.location.protocol != "https:") {
         window.location.protocol = "https";
       }
     </script>
   </head>
   <body>
     <div class="container-fluid">{% block content %}{% endblock %}</div>
-    {% include 'bootstrapscripts.html' %}
+    {% include 'footer.html' %} {% include 'bootstrapscripts.html' %}
   </body>
 </html>
