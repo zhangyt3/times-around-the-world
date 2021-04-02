@@ -41,6 +41,9 @@ def calculate():
     authcode = request.args.get("code")
     athlete, access_token = get_access_token(authcode)
 
+    if not athlete or not access_token:
+        return redirect(url_for("index"))
+
     data = get_athlete_data(athlete["id"], access_token)
     distance_ran = int(data["all_run_totals"]["distance"]) // 1000
     distance_biked = int(data["all_ride_totals"]["distance"]) // 1000
@@ -75,10 +78,9 @@ def get_access_token(authcode):
         "code": authcode,
         "grant_type": "authorization_code"
     })
-    # TODO: handle error
     parsed = json.loads(r.content)
-    access_token = parsed["access_token"]
-    athlete = parsed["athlete"]
+    access_token = parsed.get("access_token")
+    athlete = parsed.get("athlete")
     return athlete, access_token
 
 
