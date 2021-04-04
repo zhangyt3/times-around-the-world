@@ -10,6 +10,11 @@
       crossorigin="anonymous"
     />
     <title>Times Around the World</title>
+    <link
+      rel="shortcut icon"
+      href="{{url_for('static', filename='favicon.ico')}}"
+      type="image/x-icon"
+    />
     <script>
       let host = "www.timesaroundtheworld.com" || "timesaroundtheworld.com";
       if (host === window.location.host && window.location.protocol != "https:") {
